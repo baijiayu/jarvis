@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <div class="caption-full">
+                    <h4><a><%=currentDevice.deviceName>  Control Panel </a></h4>
+                    <p> <%=currentDevice.deviceInfo.brand> </p>
+                    <p> <%=currentDevice.deviceInfo.deviceType> </p>
+                </div>
+            </div>
+
+            <div class="well">
+                <% currentDevice.deviceInfo.buttons.forEach(function(button){ %>
+                    <form action="/devices/sendCode/<%=button._id%>" method="POST">
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-primary btn-block"> <%=button.buttonName> </button>
+                        </div>
+                    </form>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

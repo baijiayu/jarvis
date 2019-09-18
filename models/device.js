@@ -3,9 +3,16 @@ mongoose.connect("mongodb://localhost/jarvis");
 
 //set up schema for campground
 var deviceSchema = new mongoose.Schema({
-    buttons : [String],
-    buttonMap: String,
-    description : Map
+    brand : String,
+    deviceType: String,
+    protocol : String,
+    buttons : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "Button"
+        }
+    ]
+
 });
 
 var Device = mongoose.model("Device",deviceSchema);
