@@ -5,9 +5,11 @@ var express = require("express"),
     Device = require("./models/device"),
     User = require("./models/user"),
     passport = require("passport"),
-    LocalStrategy = require("passport-local");
+    LocalStrategy = require("passport-local"),
+    seedDB = require("./seed");
 
-var indexRoute = require("./routes/index.js");
+var indexRoute = require("./routes/index.js"),
+    deviceRoute = require("./routes/devices.js");
 
 var port = 3000
 
@@ -19,6 +21,7 @@ app.use(express.static(__dirname + "/public"));
 
 //connect to mongoose
 mongoose.connect("mongodb://localhost/jarvis");
+seedDB();
 
 //use ejs as template
 app.set("view engine", "ejs");
@@ -44,6 +47,9 @@ app.use(function(req,res,next){
 
 //index and user auth.
 app.use("/",indexRoute);
+
+//device routes
+app.use("/devices",deviceRoute);
 
 /*
 app.listen(process.env.PORT,process.env.IP,function(){

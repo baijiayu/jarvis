@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var UserDevice = require("../models/userDevice.js");
+var UserDevice = require("../models/userDevice.js"),
+    User = require("../models/user.js"),
+    Button = require("../models/button.js");
+
 //*******************
 //Device
 //*******************
@@ -23,11 +26,11 @@ router.get("/",isLoggedIn,function(req,res){
 //SHOW
 router.get("/:id",isLoggedIn,function(req,res){
     var id = req.params.id;
-    UserDevice.findById(id).populate(
+    UserDevice.findById(id).populate({
       path : 'Device',
       populate : {
         path : 'Button'
-      }).exec(function(error,userDevice){
+      }}).exec(function(error,userDevice){
 
         if(error){
           console.log("failed to find a specific device");
@@ -39,7 +42,7 @@ router.get("/:id",isLoggedIn,function(req,res){
 });
 
 //SEND CODE
-router.post("/sendCode/:id",isLoggedIn,function(req,res){
+router.post("/send/:id",isLoggedIn,function(req,res){
     var id = req.params.id;
     Button.findById(id, function(err, button){
       if(err){

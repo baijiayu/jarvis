@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/jarvis");
 
-//set up schema for campground
+//set up schema for button
 var ButtonSchema = new mongoose.Schema({
     deviceBrand : String,
     deviceType : String,
