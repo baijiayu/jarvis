@@ -1,7 +1,11 @@
 var express = require("express");
 var router = express.Router();
+<<<<<<< HEAD
 var UserDevice = require("../models/userDevice.js"),
     User = require("../models/user.js");
+=======
+var UserDevice = require("../models/userDevice.js");
+>>>>>>> f56ee9d059fd329e8420c8be253f686a63728ab0
 
 //*******************
 //Device
