@@ -21,7 +21,9 @@ app.use(express.static(__dirname + "/public"));
 
 //connect to mongoose
 mongoose.connect("mongodb://localhost/jarvis");
-seedDB();
+
+//seed test data in database 
+//seedDB();
 
 //use ejs as template
 app.set("view engine", "ejs");

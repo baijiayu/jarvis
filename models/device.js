@@ -8,8 +8,8 @@ var deviceSchema = new mongoose.Schema({
     protocol : String,
     buttons : [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "Button"
+            buttonName : String,
+            hex : String
         }
     ]
 

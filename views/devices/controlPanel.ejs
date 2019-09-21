@@ -4,21 +4,28 @@
         <div class="col-md-9">
             <div class="thumbnail">
                 <div class="caption-full">
-                    <h4><a><%=currentDevice.deviceName>  Control Panel </a></h4>
-                    <p> <%=currentDevice.deviceInfo.brand> </p>
-                    <p> <%=currentDevice.deviceInfo.deviceType> </p>
+                    <h4><%=currentDevice.deviceName %>  Control Panel </h4>
+                    <p> <%=currentDevice.deviceInfo.brand %> </p>
+                    <p> <%=currentDevice.deviceInfo.deviceType %> </p>
                 </div>
             </div>
 
             <div class="well">
                 <% currentDevice.deviceInfo.buttons.forEach(function(button){ %>
-                    <form action="/devices/sendCode/<%=button._id%>" method="POST">
+                    <form action="/devices/<%=currentDevice._id%>/<%=button.buttonName%>" method="POST">
                         <div class="form-group">
-                            <button class="btn btn-lg btn-primary btn-block"> <%=button.buttonName> </button>
+                            <button class="btn btn-lg btn-primary btn-block"> <%=button.buttonName %> </button>
                         </div>
                     </form>
                 <% }) %>
             </div>
+
+            <div class="thumbnail">
+                <div class="caption-full">
+                    <a href="/devices">Go back to device list</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

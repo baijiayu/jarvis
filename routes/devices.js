@@ -1,8 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var UserDevice = require("../models/userDevice.js"),
-    User = require("../models/user.js"),
-    Button = require("../models/button.js");
+    User = require("../models/user.js");
 
 //*******************
 //Device
@@ -26,13 +25,10 @@ router.get("/",isLoggedIn,function(req,res){
 //SHOW
 router.get("/:id",isLoggedIn,function(req,res){
     var id = req.params.id;
-    UserDevice.findById(id).populate({
-      path : 'Device',
-      populate : {
-        path : 'Button'
-      }}).exec(function(error,userDevice){
+    UserDevice.findById(id).populate("deviceInfo").exec(function(error,userDevice){
 
         if(error){
+          console.log(error)
           console.log("failed to find a specific device");
         }else{
           res.render("devices/controlPanel",{currentDevice : userDevice});
@@ -42,15 +38,19 @@ router.get("/:id",isLoggedIn,function(req,res){
 });
 
 //SEND CODE
-router.post("/send/:id",isLoggedIn,function(req,res){
-    var id = req.params.id;
-    Button.findById(id, function(err, button){
-      if(err){
-        console.log(err)
-      }else{
-        console.log("send code")
-        console.log(button)
-      }
+router.post("/:deviceId/:buttonName",isLoggedIn,function(req,res){
+    var deviceId = req.params.deviceId;
+    var buttonName = req.params.buttonName;
+
+    UserDevice.findById(deviceId).populate("deviceInfo").exec(function(error,currentDevice){
+        buttons = currentDevice.deviceInfo.buttons
+        buttons.forEach(function(button){
+          if(button.buttonName == buttonName){
+            console.log("sending code");
+            console.log(button);
+            res.redirect("/devices/" + deviceId);
+          }
+        });
     });
 });
 
@@ -59,6 +59,7 @@ function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }else{
+        console.log("not logged in!");
         res.redirect("/login");
     }
 }
