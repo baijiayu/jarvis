@@ -13,6 +13,27 @@ var indexRoute = require("./routes/index.js"),
 
 var port = 3000
 
+// websocket connection to RPi
+/*
+https://stackoverflow.com/questions/16280747/sending-message-to-a-specific-connected-users-using-websocket
+*/
+
+const WebSocket = require('ws');
+ 
+const wss = new WebSocket.Server({ port: 8080 });
+ 
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('RPI: %s', message);
+  });
+  ws.send('IR code');
+});
+
+
+
+
+
+
 //use bodyparser
 app.use(bodyparser.urlencoded({extended : true}));
 
