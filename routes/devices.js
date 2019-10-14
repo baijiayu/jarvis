@@ -30,7 +30,7 @@ router.get("/new", isLoggedIn, function(req,res)){
 
 //CREATE new user device
 router.post("/new",isLoggedIn,function(req,res){
-
+  
 }
 */
 
