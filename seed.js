@@ -31,7 +31,8 @@ var testUserTV = {
 
 var testUser = {
 	username: "test_user",
-	password: "123456"
+	password: "123456",
+    IRManID: "59e6ace6750d71996bc915369adb2577"
 }
 
 function seedDB(){
@@ -57,7 +58,7 @@ function seedDB(){
     		console.log("removed all Device")
     	}
 	});
-	*/
+    */
 	User.findOne({username: "maxbai"}).populate({
         path : 'DeviceList'
       }).exec(function(err,storedUser){
@@ -82,34 +83,7 @@ function seedDB(){
             });
         }
     });
-	/*
-	User.create(testUser,function(err,storedUser){
-
-        if(err){
-            console.log(err);
-        }else{
-
-           	UserDevice.create(testUserTV,function(err,storedUserTV){
-		    	if(err){
-            		console.log(err);
-        		}else{
-
-            		storedUser.deviceList.push(storedUserTV);
-            		storedUser.save();
-            		Device.create(testDellTV,function(err,storedTV){
-        				if(err){
-            				console.log(err);
-        				}else{
-							storedUserTV.deviceInfo = storedTV;
-            				storedUserTV.save();
-        				}
-    				});
-            	}
-            });
-        }
-    });
     
-    */
 }
 
 module.exports = seedDB;

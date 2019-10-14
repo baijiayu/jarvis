@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var UserDevice = require("../models/userDevice.js"),
     User = require("../models/user.js");
+var sender = require("../app.js");
 
 //*******************
 //Device
@@ -21,12 +22,22 @@ router.get("/",isLoggedIn,function(req,res){
       }
     });
 });
+/*
+//NEW user device
+router.get("/new", isLoggedIn, function(req,res)){
+    res.render("devices/new");
+}
+
+//CREATE new user device
+router.post("/new",isLoggedIn,function(req,res){
+
+}
+*/
 
 //SHOW
 router.get("/:id",isLoggedIn,function(req,res){
     var id = req.params.id;
     UserDevice.findById(id).populate("deviceInfo").exec(function(error,userDevice){
-
         if(error){
           console.log(error)
           console.log("failed to find a specific device");
@@ -46,8 +57,14 @@ router.post("/:deviceId/:buttonName",isLoggedIn,function(req,res){
         buttons = currentDevice.deviceInfo.buttons
         buttons.forEach(function(button){
           if(button.buttonName == buttonName){
-            console.log("sending code");
-            console.log(button);
+            //find the id for this user's irman
+            id =  req.user.IRManID;
+            //construct the request
+            opcode = 0
+            command = {deviceBrand: currentDevice.deviceInfo.brand, 
+                      deviceType: currentDevice.deviceInfo.deviceType,
+                      button: buttonName}
+            sender.sendControlSignal(id,opcode,command)
             res.redirect("/devices/" + deviceId);
           }
         });
@@ -59,7 +76,7 @@ function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }else{
-        console.log("not logged in!");
+        console.log("user not logged in!");
         res.redirect("/login");
     }
 }

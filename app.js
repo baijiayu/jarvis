@@ -7,32 +7,68 @@ var express = require("express"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     seedDB = require("./seed");
+    fillDB = require("./fillDB");
 
 var indexRoute = require("./routes/index.js"),
     deviceRoute = require("./routes/devices.js");
 
 var port = 3000
+var websocketPort = 8080
 
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 // websocket connection to RPi
 /*
 https://stackoverflow.com/questions/16280747/sending-message-to-a-specific-connected-users-using-websocket
 */
 
 const WebSocket = require('ws');
- 
-const wss = new WebSocket.Server({ port: 8080 });
- 
+
+const wss = new WebSocket.Server({ port: websocketPort });
+
+clientConnections = {}
+
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('RPI: %s', message);
+    message = JSON.parse(message);
+    console.log("received handshake message from IR Man:")
+    console.log(message)
+    clientConnections[message.id] = ws;
   });
-  ws.send('IR code');
 });
 
+/*
+opcode: 0 for sending ir command
+opcode: 1 for starting locating devices
+*/
+module.exports.sendControlSignal = function (id, opcode, content){
+    if(!id in clientConnections){
+        console.log("IR Man not connected");
+        return
+    }
 
+    if(!( id in clientConnections)){
+        console.log("RPi not connected")
+        return
+    }
 
+    ws = clientConnections[id];
+    command = {opcode: opcode, content: content}
+    ws.send(JSON.stringify(command));
+};
+//module.exports = {sendControlSignal:sendControlSignal}
 
-
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 
 //use bodyparser
 app.use(bodyparser.urlencoded({extended : true}));
@@ -44,7 +80,7 @@ app.use(express.static(__dirname + "/public"));
 mongoose.connect("mongodb://localhost/jarvis");
 
 //seed test data in database 
-//seedDB();
+//fillDB();
 
 //use ejs as template
 app.set("view engine", "ejs");
@@ -76,8 +112,8 @@ app.use("/devices",deviceRoute);
 
 /*
 app.listen(process.env.PORT,process.env.IP,function(){
-    console.log("camp has started")
+    console.log("server has started")
 });
 */
-app.listen(port, ()=> console.log("listening on port: " + port + "!"))
+app.listen(port, ()=> console.log("webapp listening on port: " + port + "!"))
 
