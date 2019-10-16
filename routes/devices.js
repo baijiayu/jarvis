@@ -22,17 +22,30 @@ router.get("/",isLoggedIn,function(req,res){
       }
     });
 });
-/*
+
 //NEW user device
-router.get("/new", isLoggedIn, function(req,res)){
+router.get("/new", isLoggedIn, function(req,res){
     res.render("devices/new");
-}
+});
 
 //CREATE new user device
-router.post("/new",isLoggedIn,function(req,res){
-  
-}
+router.post("/",isLoggedIn,function(req,res){
+    var userId = req.user._id;
+    var brand = req.params
+    console.log(req.body.source);
+    console.log(req.body.status);
+/*
+    User.findById(userId).populate("deviceList").exec(function(err,user){
+      if(err){
+        console.log(err)
+      }
+      else{
+        res.render("devices/index",{ currentUser : user});
+      }
+    });
 */
+});
+
 
 //SHOW
 router.get("/:id",isLoggedIn,function(req,res){
