@@ -3,7 +3,9 @@
     <div class="row">
         <h1 style="text-align: center">Add a new device to your list</h1>
         <div style="width: 30%; margin: 25px auto;">
+
             <form action="/devices" method="POST">
+                <input type="text" name="deviceName" placeholder="device name">
 
                 <div class="category_div" id="category_div">BRAND:
                     <script src="/selection.js"></script>
@@ -556,23 +558,14 @@
 
                     </select>
                 </div>
+
                 <div class="sub_category_div" id="sub_category_div">CONTROLLER:
-
-                    <script type="text/javascript" language="JavaScript">
-                    document.write('<select name="status" id="status"><option value=""> CONTROLLER</option></select>')
-                    </script>
-
-                    <noscript>
                     <select id="status" name="status">
-                        <option value="open">Device Type</option>
+                        <option value=""> Device Type</option>
                     </select>
-                    </noscript>
                 </div>
 
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Add Device</button>
-                </div>
-
+                <input type="submit" />
             </form>
             <a href="/devices">Go Back To Device List</a>
         </div>

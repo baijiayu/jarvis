@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var UserDevice = require("../models/userDevice.js"),
-    User = require("../models/user.js");
+    User = require("../models/user.js"),
+    Device = require("../models/device.js");
 var sender = require("../app.js");
 
 //*******************
@@ -31,19 +32,42 @@ router.get("/new", isLoggedIn, function(req,res){
 //CREATE new user device
 router.post("/",isLoggedIn,function(req,res){
     var userId = req.user._id;
-    var brand = req.params
-    console.log(req.body.source);
-    console.log(req.body.status);
-/*
+    var brand = req.body.source;
+    var deviceType = req.body.status;
+    var deviceName = req.body.deviceName;
+
     User.findById(userId).populate("deviceList").exec(function(err,user){
       if(err){
         console.log(err)
       }
       else{
-        res.render("devices/index",{ currentUser : user});
+        Device.find({brand : brand, deviceType : deviceType}, function(err, devices){
+          if(devices.length == 0){
+            console.log("device not found")
+            res.redirect("/devices");
+          }
+          device = devices[0]
+          if(err){
+            console.log(err)
+          }else{
+            var userDevice = {
+                deviceName: deviceName
+            }
+            UserDevice.create(userDevice,function(err,storedUserDevice){
+              if(err){
+                console.log(err);
+              }else{
+                storedUserDevice.deviceInfo = device;
+                storedUserDevice.save()
+                user.deviceList.push(storedUserDevice);
+                user.save();
+              }
+            });
+          }
+        });
       }
     });
-*/
+    res.redirect("/devices");
 });
 
 

@@ -19,7 +19,7 @@ function newBrand(brandName, brandPath) {
     			var deviceInfoPath = brandPath + "/" + deviceTypes[i]
         		//strip off the ending .xml to get the device type
         		var deviceType = deviceTypes[i].substring(0,deviceTypes[i].length - 4)
-                code = code + "\tdocument.getElementById(\"status\")\.options["+ index +"]=new Option(\"" + deviceType + "\",\"\")\;" + "\n";
+                code = code + "\tdocument.getElementById(\"status\")\.options["+ index +"]=new Option(\"" + deviceType + "\",\"" + deviceType + "\")\;" + "\n";
                 index += 1
 /*
         case "manual" :

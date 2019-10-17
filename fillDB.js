@@ -23,6 +23,7 @@ function addDevice(brandName, deviceType, devicePath) {
     	var deviceObj = {
 			brand: brandName, deviceType: deviceType, protocol: "NA", buttons: buttons
 		}
+        console.log("created:" + brandName + ":" + deviceType)
     	Device.create(deviceObj,function(err,storedDevice){
         	if(err){
             	console.log(err);
@@ -43,7 +44,7 @@ function addBrand(brandName, brandPath) {
     			var deviceInfoPath = brandPath + "/" + deviceTypes[i]
         		//strip off the ending .xml to get the device type
         		var deviceType = deviceTypes[i].substring(0,deviceTypes[i].length - 4)
-        		addDevice(brandName, deviceTypes[i], deviceInfoPath)
+        		addDevice(brandName, deviceType, deviceInfoPath)
     		}
     	}
 	});
