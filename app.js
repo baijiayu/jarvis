@@ -44,16 +44,11 @@ wss.on('connection', function connection(ws) {
 
 /*
 opcode: 0 for sending ir command
-opcode: 1 for starting locating devices
+opcode: 1 for calibrate
 */
 module.exports.sendControlSignal = function (id, opcode, content){
     if(!id in clientConnections){
         console.log("IR Man not connected");
-        return
-    }
-
-    if(!( id in clientConnections)){
-        console.log("RPi not connected")
         return
     }
 

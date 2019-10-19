@@ -1,8 +1,7 @@
 var  mongoose = require("mongoose"),
     User = require("./models/user.js"),
     Device = require("./models/device.js"),
-    UserDevice = require("./models/userDevice.js"),
-    Button = require("./models/button.js");
+    UserDevice = require("./models/userDevice.js");
 
 var testDellTVButtons = [{
     	buttonName: "Power",

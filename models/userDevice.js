@@ -4,6 +4,7 @@ mongoose.connect("mongodb://localhost/jarvis");
 //set up schema for userDevice
 var UserDeviceSchema = new mongoose.Schema({
     deviceName : String,
+    type: String,
     deviceInfo : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "Device"

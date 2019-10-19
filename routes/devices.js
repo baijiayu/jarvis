@@ -35,6 +35,7 @@ router.post("/",isLoggedIn,function(req,res){
     var brand = req.body.source;
     var deviceType = req.body.status;
     var deviceName = req.body.deviceName;
+    var type = req.body.type;
 
     User.findById(userId).populate("deviceList").exec(function(err,user){
       if(err){
@@ -51,7 +52,8 @@ router.post("/",isLoggedIn,function(req,res){
             console.log(err)
           }else{
             var userDevice = {
-                deviceName: deviceName
+                deviceName: deviceName,
+                type: type
             }
             UserDevice.create(userDevice,function(err,storedUserDevice){
               if(err){

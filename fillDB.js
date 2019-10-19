@@ -28,7 +28,6 @@ function addDevice(brandName, deviceType, devicePath) {
         	if(err){
             	console.log(err);
         	}
-        	console.log("created:" + brandName + ":" + deviceType)
     	});
  	});
 }
