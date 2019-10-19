@@ -12,5 +12,5 @@ async def mock_server(websocket, path):
 
 start_server = websockets.serve(mock_server, "localhost", 8080)
 
-asyncio.get_event_loop().run_until_complete(mock_server)
+asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

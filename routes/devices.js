@@ -72,6 +72,37 @@ router.post("/",isLoggedIn,function(req,res){
     res.redirect("/devices");
 });
 
+//SEND calibrate command
+router.get("/calibrate", isLoggedIn, function(req,res){
+  var userId = req.user._id;
+
+  User.findById(userId).populate({
+        path:"deviceList",
+        model:"UserDevice",
+        populate:{
+          path:"deviceInfo",
+          model:"Device"
+        }
+      }).exec(function(err,user){
+      if(err){
+        console.log(err)
+      }
+      else{
+        command = []
+        user.deviceList.forEach(function(userDevice){
+          type = userDevice.type
+          console.log(userDevice.deviceInfo)
+          deviceType = userDevice.deviceInfo.deviceType
+          brand = userDevice.deviceInfo.brand
+          command.push({brand: brand, deviceType: deviceType, type: type});
+        });
+        var id = req.user.IRManID;
+        console.log(command)
+        sender.sendControlSignal(id,1,command)
+      }
+    });
+    res.redirect("/devices");
+});
 
 //SHOW
 router.get("/:id",isLoggedIn,function(req,res){
