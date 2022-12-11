@@ -18,7 +18,7 @@
   "homepage": "https://github.com/baijiayu/jarvis#readme",
   "dependencies": {
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.16.2",
     "mongoose": "^5.7.0",
     "passport": "^0.4.0",
